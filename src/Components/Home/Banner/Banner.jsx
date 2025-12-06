@@ -17,8 +17,8 @@ const Banner = () => {
           the events. You can even see the approaching of a revolution in
           clothes. You can see and feel everything in clothes.
         </p>
-        <button className="top-20 lg:left-60 lg:top-20 md:left-24 absolute btn mr-3 text-secondary bg-primary/50 border-none">View Products</button>
-        <button className="top-20 left-35 lg:left-95 lg:top-20 md:left-60 absolute btn bg-primary/50 border-none text-secondary">Book Products</button>
+        <button className="top-20 lg:left-70 lg:top-20 md:left-24 absolute btn mr-3 text-secondary bg-primary/50 border-none">View Products</button>
+        <button className="top-20 left-35 lg:left-105 lg:top-20 md:left-60 absolute btn bg-primary/50 border-none text-secondary">Book Products</button>
       </div>
     </div>
   );

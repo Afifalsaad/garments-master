@@ -2,8 +2,28 @@ import React from "react";
 import ThemeSwitcher from "../../../ThemeSwitcher/SwitchTheme";
 import { Link, NavLink } from "react-router";
 import Logo from "../../../Pages/Shared/Logo";
+import useAuth from "../../../Hooks/useAuth";
+import { RxAvatar } from "react-icons/rx";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
+  const { user, logOut } = useAuth();
+
+  const handleLogout = () => {
+    logOut()
+      .then(() => {
+        {
+          Swal.fire({
+            title: "Logout Successful",
+            icon: "success",
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const links = (
     <>
       <li>
@@ -55,15 +75,47 @@ const Navbar = () => {
         <ThemeSwitcher></ThemeSwitcher>
         <div className="navbar-end hidden lg:flex font-semibold">
           <div>
-            <ul className="menu menu-horizontal px-4">{links}</ul>
+            <ul className="menu menu-horizontal">{links}</ul>
           </div>
+
           <div>
-            <li className="btn btn-primary text-black">
-              <NavLink to="/">Login</NavLink>
-            </li>
-            <li className="btn btn-primary mx-4 text-black">
-              <NavLink to="/">Register</NavLink>
-            </li>
+            <div>
+              {user ? (
+                <div className="relative flex items-center gap-4 group mr-3">
+                  <button
+                    onClick={handleLogout}
+                    className="btn btn-primary text-black hover:cursor-pointer">
+                    Logout
+                  </button>
+
+                  <button>
+                    {user.photoURL ? (
+                      <img
+                        className="w-9 h-9 object-cover rounded-full hover:cursor-pointer"
+                        src={user.photoURL}
+                        alt="avatar"
+                      />
+                    ) : (
+                      <RxAvatar className="text-3xl hover:cursor-pointer text-black" />
+                    )}
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    className="btn btn-primary text-black mx-2 hover:cursor-pointer">
+                    Login
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="btn btn-primary text-black hover:cursor-pointer">
+                    Register
+                  </Link>
+                </>
+              )}
+            </div>
+            
           </div>
         </div>
       </div>
