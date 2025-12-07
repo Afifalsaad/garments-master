@@ -14,7 +14,7 @@ const DashBoardLayout = () => {
         <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
           {/* Navbar */}
-          <nav className="navbar w-full bg-primary/40 text-black">
+          <nav className="navbar w-full bg-primary/10 text-black">
             <label
               htmlFor="my-drawer-4"
               aria-label="open sidebar"
@@ -37,7 +37,7 @@ const DashBoardLayout = () => {
             <div className="px-4 font-semibold">Dashboard</div>
           </nav>
           {/* Page content here */}
-          <div className="p-4 bg-primary/40 min-h-screen text-black">
+          <div className="p-4 bg-primary/10 min-h-screen text-black">
             <Outlet></Outlet>
           </div>
         </div>
@@ -47,7 +47,7 @@ const DashBoardLayout = () => {
             htmlFor="my-drawer-4"
             aria-label="close sidebar"
             className="drawer-overlay"></label>
-          <div className="flex min-h-full flex-col items-start bg-primary/40  text-black is-drawer-close:w-14 is-drawer-open:w-64">
+          <div className="flex min-h-full flex-col items-start bg-primary/10  text-black is-drawer-close:w-14 is-drawer-open:w-64">
             {/* Sidebar content here */}
             <ul className="menu w-full grow">
               {/* List item */}

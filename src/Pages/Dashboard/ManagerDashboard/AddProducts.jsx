@@ -1,16 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const AddProducts = () => {
-  const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-
+  const [previews, setPreviews] = useState([]);
   const { register, handleSubmit } = useForm();
 
-  const handleAddProduct = (data) => {
-    console.log(data);
+  const handlePreview = (e) => {
+    const files = Array.from(e.target.files);
+    const urls = files.map((file) => URL.createObjectURL(file));
+    setPreviews((prev) => [...prev, ...urls]);
+  };
+
+  const handleAddProduct = async (data) => {
+    const images = Array.from(data.images);
+    console.log(images);
+    const image_URL_API = `https://api.imgbb.com/1/upload?key=${
+      import.meta.env.VITE_IMAGE_HOST
+    }`;
+
+    let imageURLs = [];
+
+    for (let i = 0; i < images.length; i++) {
+      const formData = new FormData();
+      formData.append("image", images[i]);
+
+      const res = await axios.post(image_URL_API, formData);
+      imageURLs.push(res.data.data.url);
+    }
 
     const productDetails = {
       name: data.productName,
@@ -19,14 +39,17 @@ const AddProducts = () => {
       available_quantity: data.availableQuantity,
       description: data.productDescription,
       minimum_order_quantity: data.minimumOrder,
-      image: data.image,
+      image: imageURLs,
       demo_video: data.demoVideo,
       payment_option: data.paymentOption,
     };
 
     axiosSecure.post("/products", productDetails).then((res) => {
       if (res.data.insertedId) {
-        console.log("product added");
+        Swal.fire({
+          title: "Product Added Successfully",
+          icon: "success",
+        });
       }
     });
   };
@@ -109,12 +132,26 @@ const AddProducts = () => {
 
               {/* Product Image */}
               <label className="font-bold text-md">Image</label>
+              <p className="text-[10px] text-gray-500">Select image pressing 'Ctrl' button.</p>
               <input
-                type="text"
-                {...register("image")}
-                className="input w-full mb-4  bg-white"
+                type="file"
+                {...register("images")}
+                multiple={true}
+                onChange={(e) => handlePreview(e)}
+                className="file-input w-full mb-4"
                 placeholder="photo"
               />
+
+              <div className="flex flex-wrap gap-4">
+                {previews.map((src, index) => (
+                  <img
+                    key={index}
+                    src={src}
+                    onClick={() => window.open(src, "_blank")}
+                    className="w-32 h-32 object-cover rounded-md border cursor-pointer"
+                  />
+                ))}
+              </div>
 
               {/* Receiver Email */}
               <label className="font-bold text-md">Demo Video</label>
