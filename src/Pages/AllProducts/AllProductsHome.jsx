@@ -1,6 +1,7 @@
 import React from "react";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router";
 
 const AllProductsHome = () => {
   const axiosSecure = useAxiosSecure();
@@ -41,7 +42,9 @@ const AllProductsHome = () => {
               </h2>
               <h2 className="my-2">
                 <span className="text-gray-600">Category: </span>{" "}
-                <span className="font-bold text-[18px]">{product.category}</span>
+                <span className="font-bold text-[18px]">
+                  {product.category}
+                </span>
               </h2>
               <h2 className="my-1">{product.price}</h2>
               <h2 className="my-1">{product.available_quantity}</h2>
@@ -54,9 +57,11 @@ const AllProductsHome = () => {
                 <p className="px-3 py-1 border text-sm">XXL</p>
               </div>
               <div>
-                <button className="btn bg-primary/70 hover:bg-primary w-full mt-5 text-black">
+                <Link
+                  to={`/productDetails/${product._id}`}
+                  className="btn bg-primary/70 hover:bg-primary w-full mt-5 text-black">
                   View Details
-                </button>
+                </Link>
               </div>
             </div>
           </div>
