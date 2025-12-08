@@ -16,6 +16,7 @@ import OrderProduct from "../Pages/OrderProduct/OrderProduct";
 import MyOrders from "../Pages/Dashboard/MyOrders/MyOrders";
 import PaymentSuccessful from "../Pages/Dashboard/Payments/PaymentSuccessful";
 import PaymentCanceled from "../Pages/Dashboard/Payments/PaymentCanceled";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -94,7 +95,13 @@ export const router = createBrowserRouter([
       },
       {
         path: "manage-user",
-        Component: ManageUser,
+        element: (
+          <AdminRoute>
+            <PrivateRoute>
+              <ManageUser></ManageUser>
+            </PrivateRoute>
+          </AdminRoute>
+        ),
       },
       {
         path: "all-products-admin",

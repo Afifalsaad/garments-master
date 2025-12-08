@@ -1,11 +1,35 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import useRole from "../../../Hooks/useRole";
+import useAuth from "../../../Hooks/useAuth";
+import { useForm } from "react-hook-form";
 
 const ManageUser = () => {
   const axiosSecure = useAxiosSecure();
+  const { user: loggedInUser } = useAuth();
   const modalRef = useRef();
+  const { role } = useRole();
+  const { register, handleSubmit } = useForm();
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const handleSuspend = async (data) => {
+    console.log("selected User", selectedUser);
+    console.log("data", data);
+    const reason = {
+      reason: data.reason,
+      feedback: data.feedback,
+    };
+
+    await axiosSecure
+      .post(`/suspend/${selectedUser._id}`, reason)
+      .then((res) => {
+        if (res.data.insertedId) {
+          console.log("suspend");
+        }
+      });
+  };
 
   const { data: users = [], refetch } = useQuery({
     queryKey: ["users"],
@@ -15,7 +39,8 @@ const ManageUser = () => {
     },
   });
 
-  const handleShowModal = () => {
+  const handleShowModal = (user) => {
+    setSelectedUser(user);
     modalRef.current.showModal();
   };
 
@@ -39,7 +64,10 @@ const ManageUser = () => {
           .then((res) => {
             if (res.data.modifiedCount) {
               refetch();
-              console.log("role updated");
+              Swal.fire({
+                title: "Approved",
+                icon: "success",
+              });
             }
           });
       }
@@ -81,28 +109,32 @@ const ManageUser = () => {
                 <td>{user.userName}</td>
                 <td>{user.userEmail}</td>
                 <td>{user.role}</td>
-                <td>
-                  {user.role === "Manager" ? (
-                    <button
-                      disabled={true}
-                      className="btn bg-[#98bbb0] hover:cursor-not-allowed text-white border-none">
-                      {" "}
-                      Approved{" "}
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => handleApprove(user)}
-                      className="btn bg-[#40826D] text-white border-none">
-                      Approve
-                    </button>
-                  )}
+                {loggedInUser?.email === user?.userEmail ? (
+                  ""
+                ) : (
+                  <td>
+                    {role === "Manager" ? (
+                      <button
+                        disabled={true}
+                        className="btn bg-[#98bbb0] hover:cursor-not-allowed text-white border-none">
+                        {" "}
+                        Approved{" "}
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleApprove(user)}
+                        className="btn bg-[#40826D] text-white border-none">
+                        Approve
+                      </button>
+                    )}
 
-                  <button
-                    onClick={handleShowModal}
-                    className="btn bg-[#CD5C5C] text-white border-none ml-1">
-                    Reject
-                  </button>
-                </td>
+                    <button
+                      onClick={() => handleShowModal(user)}
+                      className="btn bg-[#CD5C5C] text-white border-none ml-1">
+                      Suspend
+                    </button>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>
@@ -112,10 +144,31 @@ const ManageUser = () => {
       {/* Modal */}
       <dialog ref={modalRef} className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
-          <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">
-            Press ESC key or click the button below to close
-          </p>
+          <h3 className="font-bold text-lg">Suspend</h3>
+          <form onSubmit={handleSubmit(handleSuspend)}>
+            <fieldset className="fieldset">
+              <label className="label">Suspend Reason</label>
+              <select
+                {...register("reason")}
+                defaultValue="Suspend Reason"
+                className="select">
+                <option disabled={true}>Suspend Reason</option>
+                <option>Violation of Platform Rules</option>
+                <option>Inappropriate or Abusive Behavior</option>
+                <option>Fraudulent or Suspicious Activity</option>
+                <option>Multiple Policy Warnings Ignored</option>
+              </select>
+              <p className="label">Details</p>
+              <textarea
+                {...register("feedback")}
+                className="textarea"
+                placeholder="Feedback"></textarea>
+            </fieldset>
+            <button className="btn bg-[#CD5C5C] text-white border-none mt-2">
+              Suspend
+            </button>
+          </form>
+
           <div className="modal-action">
             <form method="dialog">
               {/* if there is a button in form, it will close the modal */}
