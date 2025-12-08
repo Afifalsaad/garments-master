@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
@@ -6,23 +6,41 @@ import LoadingSpinner from "../Loading/Loading";
 
 const AllProductsHome = () => {
   const axiosSecure = useAxiosSecure();
+  const [totalProducts, setTotalProducts] = useState(0);
+  const [totalPage, setTotalPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+  const limit = 6;
 
-  const { data: products = [], isLoading } = useQuery({
+  const {
+    data: products = [],
+    isLoading,
+    refetch,
+    isFetching,
+  } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/all-products");
-      return res.data;
+      const res = await axiosSecure.get(
+        `/all-products?limit=${limit}&skip=${currentPage * limit}`
+      );
+      const totalProducts = res.data.totalProducts;
+      setTotalProducts(totalProducts);
+
+      const page = Math.ceil(totalProducts / limit);
+      setTotalPage(page);
+      return res.data.result;
     },
   });
 
-  if (isLoading) {
+  refetch();
+
+  if (isLoading && isFetching) {
     return <LoadingSpinner></LoadingSpinner>;
   }
 
   return (
-    <div className="max-w-11/12 mx-auto pt-5 p-6">
+    <div className="max-w-11/12 mx-auto pt-5 p-6 mb-10">
       <h2 className="text-4xl font-bold text-center py-8">
-        All Products: <span className="text-yellow-700">{products.length}</span>
+        All Products: <span className="text-yellow-700">{totalProducts}</span>
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center items-center text-left">
         {products.map((product) => (
@@ -70,6 +88,35 @@ const AllProductsHome = () => {
             </div>
           </div>
         ))}
+      </div>
+      <div className="flex justify-center flex-wrap gap-3 mt-16">
+        {currentPage > 0 && (
+          <button
+            onClick={() => setCurrentPage(currentPage - 1)}
+            className="btn">
+            Prev
+          </button>
+        )}
+
+        {[...Array(totalPage).keys()].map((i) => (
+          <div className="join">
+            <button
+              onClick={() => setCurrentPage(i)}
+              className={`btn btn-square ${
+                i === currentPage && "btn-outline"
+              } btn-primary rounded-md text-black`}>
+              {" "}
+              {i + 1}
+            </button>
+          </div>
+        ))}
+        {currentPage < totalPage - 1 && (
+          <button
+            onClick={() => setCurrentPage(currentPage + 1)}
+            className="btn">
+            Next
+          </button>
+        )}
       </div>
     </div>
   );
