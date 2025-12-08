@@ -3,18 +3,19 @@ import { useForm } from "react-hook-form";
 import useAuth from "../../../Hooks/useAuth";
 import Swal from "sweetalert2";
 import { Link, useLocation, useNavigate } from "react-router";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const Login = () => {
-  const { googleSignIn, loginUser } = useAuth();
+  const { googleSignIn, loginUser, user } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
 
   const handleLogin = (data) => {
     const email = data.email;
     const password = data.password;
-    console.log(email,password)
+    console.log(email, password);
     loginUser(email, password)
       .then(() => {
         Swal.fire({
@@ -30,7 +31,25 @@ const Login = () => {
 
   const handleGoogleLogin = () => {
     googleSignIn()
-      .then(() => {
+      .then((result) => {
+        const loggedInUser = result.user;
+        const userInfo = {
+          userName: loggedInUser.displayName,
+          userEmail: loggedInUser.email,
+          photoURL: loggedInUser.photoURL,
+          role: "Buyer",
+          status: "pending",
+          createdAt: new Date().toLocaleString(),
+        };
+        //   Add user to database
+        axiosSecure.post("/users", userInfo).then((res) => {
+          if (res.data.insertedId) {
+            Swal.fire({
+              title: "Logged In",
+              icon: "success",
+            });
+          }
+        });
         Swal.fire({
           title: "Logged In",
           icon: "success",

@@ -10,7 +10,9 @@ const OurProducts = () => {
   const { data: products = [], isLoading } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/all-products-limited");
+      const res = await axiosSecure.get(
+        "/all-products-limited?show_on_home=true"
+      );
       return res.data;
     },
   });
@@ -70,13 +72,14 @@ const OurProducts = () => {
           </div>
         ))}
       </div>
-      <Link to="/all-products">
-        <div className="text-center">
-          <button className="btn border border-primary px-8 my-6 bg-none text-center">
+
+      <div className="text-center">
+        <Link to="/all-products">
+          <button className="btn hover:bg-primary/50 border border-primary px-8 my-6 bg-none text-center">
             View All
           </button>
-        </div>
-      </Link>
+        </Link>
+      </div>
     </div>
   );
 };

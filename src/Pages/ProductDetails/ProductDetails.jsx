@@ -7,6 +7,7 @@ import useRole from "../../Hooks/useRole";
 const ProductDetails = () => {
   const { id } = useParams();
   const { role } = useRole();
+  console.log(role);
 
   const axiosSecure = useAxiosSecure();
 
@@ -17,7 +18,6 @@ const ProductDetails = () => {
       return res.data;
     },
   });
-
 
   return (
     <div className="min-h-screen py-10 px-4">

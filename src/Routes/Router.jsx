@@ -105,7 +105,13 @@ export const router = createBrowserRouter([
       },
       {
         path: "all-products-admin",
-        Component: AllProducts,
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <AllProducts></AllProducts>
+            </AdminRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "all-orders",

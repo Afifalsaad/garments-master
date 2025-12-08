@@ -56,6 +56,7 @@ const OrderProduct = () => {
       note: data.note,
       payment_option: product.payment_option,
       payment_status: "pending",
+      show_on_home: false,
     };
 
     axiosSecure.post("/order-product", orderDetails).then((res) => {
