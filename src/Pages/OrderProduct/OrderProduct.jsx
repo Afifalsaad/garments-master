@@ -54,6 +54,7 @@ const OrderProduct = () => {
       number: data.number,
       address: data.deliveryAddress,
       note: data.note,
+      status: "pending",
       payment_option: product.payment_option,
       payment_status: "pending",
       show_on_home: false,

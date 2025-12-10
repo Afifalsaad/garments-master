@@ -214,11 +214,6 @@ const AllProducts = () => {
       </div>
 
       {/* Modal */}
-      {loading && (
-        <div className="fixed h-screen inset-0 bg-white/50 flex items-center justify-center z-50 rounded-lg backdrop:bg-none">
-          <LoadingSpinner />
-        </div>
-      )}
       <dialog ref={modalRef} className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <h2 className="text-2xl font-bold text-center mb-2">Update</h2>
