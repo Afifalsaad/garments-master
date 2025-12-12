@@ -3,7 +3,7 @@ import Navbar from "../Components/Home/Navbar/Navbar";
 import { Link, Outlet } from "react-router";
 import { FaJediOrder, FaShoppingCart, FaUsersCog } from "react-icons/fa";
 import { AiFillProduct } from "react-icons/ai";
-import { MdBorderColor } from "react-icons/md";
+import { MdBorderColor, MdOutlinePendingActions } from "react-icons/md";
 import { IoMdAddCircle } from "react-icons/io";
 import useRole from "../Hooks/useRole";
 import { IoSettings } from "react-icons/io5";
@@ -177,6 +177,24 @@ const DashBoardLayout = () => {
                         <IoSettings />
                         <span className="is-drawer-close:hidden">
                           Manage Products
+                        </span>
+                      </button>
+                    </li>
+                  </Link>
+                </>
+              )}
+              {/* Pending orders */}
+              {role === "Manager" && (
+                <>
+                  <Link to="/dashboard/pending-orders">
+                    <li>
+                      <button
+                        className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                        data-tip="pending orders">
+                        {/* Icon */}
+                        <MdOutlinePendingActions />
+                        <span className="is-drawer-close:hidden">
+                          Pending Orders
                         </span>
                       </button>
                     </li>

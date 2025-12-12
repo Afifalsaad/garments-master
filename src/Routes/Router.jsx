@@ -19,6 +19,7 @@ import PaymentCanceled from "../Pages/Dashboard/Payments/PaymentCanceled";
 import AdminRoute from "./AdminRoute";
 import ManageProducts from "../Pages/ManageProducts/ManageProducts";
 import ManagerRoute from "./ManagerRoute";
+import PendingOrders from "../Pages/PendingOrders/PendingOrders";
 
 export const router = createBrowserRouter([
   {
@@ -141,6 +142,16 @@ export const router = createBrowserRouter([
           <PrivateRoute>
             <ManagerRoute>
               <ManageProducts></ManageProducts>
+            </ManagerRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "pending-orders",
+        element: (
+          <PrivateRoute>
+            <ManagerRoute>
+              <PendingOrders></PendingOrders>
             </ManagerRoute>
           </PrivateRoute>
         ),

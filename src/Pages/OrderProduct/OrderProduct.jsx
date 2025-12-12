@@ -45,6 +45,7 @@ const OrderProduct = () => {
     const orderDetails = {
       id: id,
       email: user?.email,
+      owner_email: product.email,
       title: data.title,
       price: data.price,
       first_name: data.firstName,
