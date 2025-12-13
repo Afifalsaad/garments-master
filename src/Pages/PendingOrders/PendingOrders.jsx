@@ -2,6 +2,7 @@ import React from "react";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../Hooks/useAuth";
+import Swal from "sweetalert2";
 
 const PendingOrders = () => {
   const { user } = useAuth();
@@ -13,13 +14,24 @@ const PendingOrders = () => {
       const res = await axiosSecure.get(
         `/pending-orders?email=${user?.email}&status=pending`
       );
-      console.log(res.data);
       return res.data;
     },
   });
+
+  const approveOrder = (order) => {
+    axiosSecure.patch(`approve-order/${order._id}`).then((res) => {
+      if (res.data.modifiedCount) {
+        Swal.fire({
+          title: "Approved",
+          icon: "success",
+        });
+      }
+    });
+  };
+
   return (
     <div>
-      <h2 className="text-4xl font-bold text-center">
+      <h2 className="text-4xl font-bold text-center mb-3">
         Pending Orders: {orders.length}
       </h2>
 
@@ -48,12 +60,13 @@ const PendingOrders = () => {
                 <td>{order.order_quantity}</td>
                 <td>{new Date(order.orderedAt).toLocaleString()}</td>
                 <td>
-                  {" "}
-                  <button className="btn bg-[#40826D] text-white border-none hover:cursor-pointer">
-                    Update
+                  <button
+                    onClick={() => approveOrder(order)}
+                    className="btn bg-[#40826D] text-white border-none hover:cursor-pointer">
+                    Approve
                   </button>
                   <button className="btn bg-[#CD5C5C] text-white border-none ml-1 hover:cursor-pointerF">
-                    Delete
+                    Reject
                   </button>
                 </td>
               </tr>
