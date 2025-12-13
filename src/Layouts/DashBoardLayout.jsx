@@ -7,10 +7,10 @@ import { MdBorderColor, MdOutlinePendingActions } from "react-icons/md";
 import { IoMdAddCircle } from "react-icons/io";
 import useRole from "../Hooks/useRole";
 import { IoSettings } from "react-icons/io5";
+import { SiTicktick } from "react-icons/si";
 
 const DashBoardLayout = () => {
   const { role } = useRole();
-  console.log(role);
 
   return (
     <div>
@@ -195,6 +195,24 @@ const DashBoardLayout = () => {
                         <MdOutlinePendingActions />
                         <span className="is-drawer-close:hidden">
                           Pending Orders
+                        </span>
+                      </button>
+                    </li>
+                  </Link>
+                </>
+              )}
+              {/* Approved orders */}
+              {role === "Manager" && (
+                <>
+                  <Link to="/dashboard/approved-orders">
+                    <li>
+                      <button
+                        className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                        data-tip="approved orders">
+                        {/* Icon */}
+                        <SiTicktick />
+                        <span className="is-drawer-close:hidden">
+                          Approved Orders
                         </span>
                       </button>
                     </li>

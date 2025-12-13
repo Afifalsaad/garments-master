@@ -3,13 +3,14 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
+import { Link } from "react-router";
 
 const PendingOrders = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  const { data: orders = [] } = useQuery({
-    queryKey: [],
+  const { data: orders = [], refetch } = useQuery({
+    queryKey: ["pending-orders", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(
         `/pending-orders?email=${user?.email}&status=pending`
@@ -21,8 +22,21 @@ const PendingOrders = () => {
   const approveOrder = (order) => {
     axiosSecure.patch(`approve-order/${order._id}`).then((res) => {
       if (res.data.modifiedCount) {
+        refetch();
         Swal.fire({
           title: "Approved",
+          icon: "success",
+        });
+      }
+    });
+  };
+
+  const rejectOrder = (order) => {
+    axiosSecure.patch(`reject-order/${order._id}`).then((res) => {
+      if (res.data.modifiedCount) {
+        refetch();
+        Swal.fire({
+          title: "Rejected",
           icon: "success",
         });
       }
@@ -65,9 +79,16 @@ const PendingOrders = () => {
                     className="btn bg-[#40826D] text-white border-none hover:cursor-pointer">
                     Approve
                   </button>
-                  <button className="btn bg-[#CD5C5C] text-white border-none ml-1 hover:cursor-pointerF">
+                  <button
+                    onClick={() => rejectOrder(order)}
+                    className="btn bg-[#CD5C5C] text-white border-none ml-1 hover:cursor-pointerF">
                     Reject
                   </button>
+                  <Link to="/dashboard/my-orders">
+                    <button className="btn bg-cyan-500 text-white border-none hover:cursor-pointer mx-1">
+                      View
+                    </button>
+                  </Link>
                 </td>
               </tr>
             ))}

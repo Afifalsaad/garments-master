@@ -20,6 +20,7 @@ import AdminRoute from "./AdminRoute";
 import ManageProducts from "../Pages/ManageProducts/ManageProducts";
 import ManagerRoute from "./ManagerRoute";
 import PendingOrders from "../Pages/PendingOrders/PendingOrders";
+import ApprovedOrders from "../Pages/ApprovedOrders/ApprovedOrders";
 
 export const router = createBrowserRouter([
   {
@@ -152,6 +153,16 @@ export const router = createBrowserRouter([
           <PrivateRoute>
             <ManagerRoute>
               <PendingOrders></PendingOrders>
+            </ManagerRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "approved-orders",
+        element: (
+          <PrivateRoute>
+            <ManagerRoute>
+              <ApprovedOrders></ApprovedOrders>
             </ManagerRoute>
           </PrivateRoute>
         ),
