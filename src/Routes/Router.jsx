@@ -21,6 +21,7 @@ import ManageProducts from "../Pages/ManageProducts/ManageProducts";
 import ManagerRoute from "./ManagerRoute";
 import PendingOrders from "../Pages/PendingOrders/PendingOrders";
 import ApprovedOrders from "../Pages/ApprovedOrders/ApprovedOrders";
+import TrackingsLog from "../Pages/TrackingsLog/TrackingsLog";
 
 export const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ export const router = createBrowserRouter([
       {
         path: "all-products",
         Component: AllProductsHome,
+      },
+      {
+        path: "/trackings-log/:trackingId",
+        Component: TrackingsLog,
       },
       {
         path: "/productDetails/:id",

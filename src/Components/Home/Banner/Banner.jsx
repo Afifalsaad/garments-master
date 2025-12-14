@@ -13,17 +13,17 @@ const Banner = () => {
           alt=""
         />
       </div>
-      <div className="max-w-8/12 mx-auto absolute left-20 top-30 lg:left-55 lg:top-60 md:left-40 text-secondary">
+      <div className="max-w-8/12 mx-auto absolute left-20 top-30 lg:left-55 lg:top-60 md:left-40 text-black">
         <p className="w-full md:w-8/12 mx-auto text-[10px] md:text-sm lg:w-8/12 top-[100px] lg:top-60 lg:right-80 font-semibold">
           Fashion is part of the daily air and it changes all the time, with all
           the events. You can even see the approaching of a revolution in
           clothes. You can see and feel everything in clothes.
         </p>
         <Link to='all-products'>
-        <button className="top-20 lg:left-70 lg:top-20 md:left-24 absolute btn mr-3 text-secondary bg-primary/50 border-none">View Products</button>
+        <button className="top-20 lg:left-70 lg:top-20 md:left-24 absolute btn mr-3  bg-primary/50 border-none">View Products</button>
         </Link>
         <Link to='all-products'>
-        <button className="top-20 left-35 lg:left-105 lg:top-20 md:left-60 absolute btn bg-primary/50 border-none text-secondary">Book Products</button>
+        <button className="top-20 left-35 lg:left-105 lg:top-20 md:left-60 absolute btn bg-primary/50 border-none ">Book Products</button>
         </Link>
       </div>
     </div>

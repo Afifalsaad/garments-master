@@ -8,7 +8,7 @@
   name: "dark";
   default: true;
   --color-primary: #ffcf00;
-  --color-secondary: #131311;
+  --color-secondary: #a1b1ff;
 }
 @plugin "daisyui/theme" {
   name: "light";

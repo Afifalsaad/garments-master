@@ -50,7 +50,7 @@ const PendingOrders = () => {
   };
 
   return (
-    <div>
+    <div className="text-secondary">
       <h2 className="text-4xl font-bold text-center mb-3">
         Pending Orders: {orders.length}
       </h2>

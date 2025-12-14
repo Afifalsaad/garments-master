@@ -36,16 +36,16 @@ const ProductDetails = () => {
           {/* Product Info */}
           <div className="flex flex-col justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              <h1 className="text-3xl font-bold text-secondary mb-2">
                 {product.name}
               </h1>
 
-              <p className="text-gray-600 text-sm mb-4">
+              <p className="text-secondary text-sm mb-4">
                 Category:{" "}
                 <span className="font-semibold">{product.category}</span>
               </p>
 
-              <p className="text-gray-700 leading-relaxed mb-6">
+              <p className="text-secondary leading-relaxed mb-6">
                 {product.description}
               </p>
 
@@ -54,13 +54,13 @@ const ProductDetails = () => {
                 <p className="text-xl font-semibold text-green-600">
                   Price: {product.price} tk/-
                 </p>
-                <p className="text-gray-700">
+                <p className="text-secondary">
                   Available Quantity:{" "}
                   <span className="font-semibold">
                     {product.available_quantity}
                   </span>
                 </p>
-                <p className="text-gray-700">
+                <p className="text-secondary">
                   Minimum Order:{" "}
                   <span className="font-semibold">
                     {product.minimum_order_quantity}
@@ -70,7 +70,7 @@ const ProductDetails = () => {
 
               {/* Payment Options */}
               <div className="mb-6">
-                <h3 className="font-semibold text-gray-800 mb-2">
+                <h3 className="font-semibold text-secondary mb-2">
                   Payment Options: {product.payment_option}
                 </h3>
               </div>
@@ -81,7 +81,7 @@ const ProductDetails = () => {
               <div>
                 <button
                   disabled={role !== "Buyer"}
-                  className="w-full py-3 rounded-xl bg-primary hover:cursor-pointer disabled:bg-primary/50 disabled:hover:cursor-not-allowed disabled:text-black/30 text-black font-semibold text-lg hover:bg-yellow-500 low transition">
+                  className="w-full py-3 rounded-xl bg-primary hover:cursor-pointer disabled:bg-primary/50 disabled:hover:cursor-not-allowed disabled:text-black/30 text-secondary font-semibold text-lg hover:bg-yellow-500 low transition">
                   Order / Book Now
                 </button>
               </div>
@@ -91,7 +91,7 @@ const ProductDetails = () => {
 
         {/* Demo Video Section */}
         <div className="mt-12">
-          <h2 className="text-2xl font-bold mb-4">Demo Video</h2>
+          <h2 className="text-2xl font-bold mb-4 text-secondary">Demo Video</h2>
           <div className="w-full h-80 bg-black rounded-xl overflow-hidden flex items-center justify-center">
             <video controls className="w-full h-full object-contain" />
           </div>

@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../Hooks/useAuth";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import { Link } from "react-router";
 
 const ApprovedOrders = () => {
   const { user } = useAuth();
@@ -52,7 +53,7 @@ const ApprovedOrders = () => {
   };
 
   return (
-    <div>
+    <div className="text-secondary">
       <h2 className="text-4xl font-bold mb-3 text-center">
         Approved Orders: {products.length}
       </h2>
@@ -85,6 +86,11 @@ const ApprovedOrders = () => {
                     className="btn bg-cyan-500 text-white border-none hover:cursor-pointer mx-1">
                     Add Trackings
                   </button>
+                  <Link to={`/trackings-log/${product.trackingId}`}>
+                    <button className="btn bg-cyan-500 text-white border-none hover:cursor-pointer mx-1">
+                      View Trackings
+                    </button>
+                  </Link>
                 </td>
               </tr>
             ))}
