@@ -23,6 +23,7 @@ import PendingOrders from "../Pages/PendingOrders/PendingOrders";
 import ApprovedOrders from "../Pages/ApprovedOrders/ApprovedOrders";
 import TrackingsLog from "../Pages/TrackingsLog/TrackingsLog";
 import Profile from "../Pages/Profile/Profile";
+import TrackOrder from "../Pages/TrackOrder/TrackOrder";
 
 export const router = createBrowserRouter([
   {
@@ -86,6 +87,14 @@ export const router = createBrowserRouter([
       {
         index: true,
         Component: DashboardHome,
+      },
+      {
+        path: "track-order",
+        element: (
+          <PrivateRoute>
+            <TrackOrder></TrackOrder>
+          </PrivateRoute>
+        ),
       },
       {
         path: "my-orders",

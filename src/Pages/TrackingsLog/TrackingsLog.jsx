@@ -11,13 +11,12 @@ const TrackingsLog = () => {
     queryKey: ["tracking", trackingId],
     queryFn: async () => {
       const res = await axiosInstance.get(`trackings/${trackingId}/log`);
-      console.log(trackings);
       return res.data;
     },
   });
 
   return (
-    <div>
+    <div className="min-h-screen">
       <h2 className="text-4xl font-bold text-center my-5">Track Your Parcel</h2>
       <ul className="timeline timeline-vertical">
         {trackings.map((log) => (

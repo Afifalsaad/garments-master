@@ -8,6 +8,7 @@ import { IoMdAddCircle } from "react-icons/io";
 import useRole from "../Hooks/useRole";
 import { IoSettings } from "react-icons/io5";
 import { SiTicktick } from "react-icons/si";
+import { FaTruckFast } from "react-icons/fa6";
 
 const DashBoardLayout = () => {
   const { role } = useRole();
@@ -219,6 +220,20 @@ const DashBoardLayout = () => {
                   </Link>
                 </>
               )}
+              {/* Track Order */}
+              <Link to="track-order">
+                <li>
+                  <button
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="track order">
+                    {/* Icon */}
+                    <FaTruckFast />
+                    <span className="is-drawer-close:hidden">
+                      Track Order
+                    </span>
+                  </button>
+                </li>
+              </Link>
               {/* Profile */}
               <Link to="/my-profile">
                 <li>

@@ -114,7 +114,7 @@ const AllProducts = () => {
         if (res.data.deletedCount) {
           Swal.fire({
             title: "Deleted",
-            icon: "warning",
+            icon: "success",
           });
           refetch();
         }

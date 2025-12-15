@@ -13,7 +13,7 @@ const PendingOrders = () => {
     queryKey: ["pending-orders", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `/pending-orders?email=${user?.email}&status=pending`
+        `/pending-orders?email=${user?.email}&status=pending&payment_status=paid`
       );
       console.log(orders);
       return res.data;
