@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useRef, useState } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
-import useRole from "../../../Hooks/useRole";
 import useAuth from "../../../Hooks/useAuth";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
@@ -11,18 +10,32 @@ const ManageUser = () => {
   const axiosSecure = useAxiosSecure();
   const { user: loggedInUser } = useAuth();
   const modalRef = useRef();
-  const { role } = useRole();
-  console.log(role);
   const { register, handleSubmit } = useForm();
   const [selectedUser, setSelectedUser] = useState(null);
+  const [searchUser, setSearchUser] = useState("");
+  const [filterUser, setFilterUser] = useState("");
 
   const { data: users = [], refetch } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
       const res = await axiosSecure.get("/users");
+      console.log(res.data);
       return res.data;
     },
   });
+
+  const filteredUsers = users
+    .filter((user) => {
+      const text = searchUser.toLowerCase();
+
+      return user.userName?.toLowerCase().includes(text);
+    })
+    .filter((user) => {
+      if (filterUser === "All" || filterUser === "") {
+        return true;
+      }
+      return user.role === filterUser;
+    });
 
   const handleSuspend = async (data) => {
     const reason = {
@@ -79,6 +92,46 @@ const ManageUser = () => {
   return (
     <div className="text-secondary">
       <h2 className="text-4xl font-bold text-center mb-3">Manage User</h2>
+      <div className="flex flex-col md:flex-row md:justify-between my-2 md:items-center">
+        {/* Search Box */}
+        <label className="input my-6">
+          <svg
+            className="h-[1em] opacity-50"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24">
+            <g
+              strokeLinejoin="round"
+              strokeLinecap="round"
+              strokeWidth="2.5"
+              fill="none"
+              stroke="currentColor">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.3-4.3"></path>
+            </g>
+          </svg>
+          <input
+            onChange={(e) => setSearchUser(e.target.value)}
+            type="search"
+            className="grow"
+            placeholder="Search Order"
+          />
+        </label>
+
+        {/* Status */}
+        <div className="w-40">
+          <fieldset className="fieldset">
+            <select
+              defaultValue={filterUser}
+              onChange={(e) => setFilterUser(e.target.value)}
+              className="select">
+              <option>All</option>
+              <option>admin</option>
+              <option>Manager</option>
+              <option>Buyer</option>
+            </select>
+          </fieldset>
+        </div>
+      </div>
 
       {/* // Table */}
       <div className="hidden md:block overflow-x-auto">
@@ -95,7 +148,7 @@ const ManageUser = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
+            {filteredUsers.map((user, index) => (
               <tr key={user._id}>
                 <th>{index + 1}</th>
                 <td>
@@ -183,7 +236,7 @@ const ManageUser = () => {
 
       {/* Responsive Cards */}
       <div className="md:hidden space-y-4">
-        {users.map((user) => (
+        {filteredUsers.map((user) => (
           <div
             key={user._id}
             className="p-4 border rounded-lg shadow-sm bg-base-100">

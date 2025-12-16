@@ -84,7 +84,7 @@ const AllOrders = () => {
         </div>
       </div>
 
-      <div className="hidden md:block">
+      <div className="hidden lg:block">
         {/* Large Screen Table */}
         <table className="table w-full">
           <div className="overflow-x-auto">
@@ -221,7 +221,7 @@ const AllOrders = () => {
       </dialog>
 
       {/* Responsive Cards */}
-      <div className="md:hidden space-y-4">
+      <div className="lg:hidden space-y-4">
         {filteredOrders.map((order) => (
           <div
             key={order._id}
