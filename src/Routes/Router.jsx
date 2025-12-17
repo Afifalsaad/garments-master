@@ -127,11 +127,11 @@ export const router = createBrowserRouter([
       {
         path: "manage-user",
         element: (
-          <AdminRoute>
-            <PrivateRoute>
+          <PrivateRoute>
+            <AdminRoute>
               <ManageUser></ManageUser>
-            </PrivateRoute>
-          </AdminRoute>
+            </AdminRoute>
+          </PrivateRoute>
         ),
       },
       {

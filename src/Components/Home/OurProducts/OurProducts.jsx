@@ -39,7 +39,6 @@ const OurProducts = () => {
 
             <div className="">
               <h2 className="my-2">
-                {/* <span className="text-[10px] text-gray-800">Name: </span> */}
                 <span className="text-xl font-bold">{product.name}</span>
               </h2>
 
@@ -50,8 +49,8 @@ const OurProducts = () => {
                   {product.price}/-
                 </span>
               </h2>
-              <p className="my-1 line-clamp-2">
-                <span className="font-bold">Desc:</span> {product.description}
+              <p className="my-1 line-clamp-4">
+                <span className="font-bold">Description:</span> {product.description}
               </p>
               <div className="card-actions mt-2">
                 <button className="px-3 py-1 border border-[#dfdfdf] text-sm hover:border-black">

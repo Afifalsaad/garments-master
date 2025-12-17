@@ -20,7 +20,6 @@ const ApprovedOrders = () => {
       const res = await axiosSecure.get(
         `approved-order?email=${user?.email}&status=approved`
       );
-      console.log(products);
       return res.data;
     },
   });

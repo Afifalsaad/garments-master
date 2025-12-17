@@ -1,11 +1,9 @@
 import React, { useRef, useState } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
-import useAuth from "../../../Hooks/useAuth";
+import { Link } from "react-router";
 
 const AllOrders = () => {
-  const { user } = useAuth();
-  console.log(user);
   const axiosSecure = useAxiosSecure();
   const modalRef = useRef();
   const [selectedOrder, setSelectedOrder] = useState();
@@ -37,6 +35,7 @@ const AllOrders = () => {
     setSelectedOrder(order);
     modalRef.current.showModal();
   };
+
   return (
     <div className="text-secondary">
       <h2 className="text-4xl font-bold text-center mb-3">
@@ -209,6 +208,11 @@ const AllOrders = () => {
                 {selectedOrder?.orderedAt}
               </span>
             </h2>
+            <Link to={`/trackings-log/${selectedOrder?.trackingId}`}>
+              <button className="btn bg-cyan-500 text-white border-none hover:cursor-pointer my-1">
+                Track Order
+              </button>
+            </Link>
           </div>
 
           <div className="modal-action">

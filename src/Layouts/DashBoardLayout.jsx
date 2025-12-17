@@ -9,6 +9,7 @@ import useRole from "../Hooks/useRole";
 import { IoSettings } from "react-icons/io5";
 import { SiTicktick } from "react-icons/si";
 import { FaTruckFast } from "react-icons/fa6";
+import Footer from "../Pages/Footer/Footer";
 
 const DashBoardLayout = () => {
   const { role } = useRole();
@@ -285,6 +286,7 @@ const DashBoardLayout = () => {
           </div>
         </div>
       </div>
+      <Footer></Footer>
     </div>
   );
 };

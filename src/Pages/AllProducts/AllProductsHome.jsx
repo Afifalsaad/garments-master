@@ -68,8 +68,17 @@ const AllProductsHome = () => {
                   {product.category}
                 </span>
               </h2>
-              <h2 className="my-1">{product.price}</h2>
-              <h2 className="my-1">{product.available_quantity}</h2>
+              <h2 className="my-1">
+                <span className="text-gray-600">Price: </span>
+                <span className="font-bold text-[16px]"> {product.price}</span>
+              </h2>
+              <h2 className="my-1">
+                <span className="text-gray-600">Available Quantity: </span>
+                <span className="font-bold text-[16px]">
+                  {" "}
+                  {product.available_quantity}
+                </span>
+              </h2>
               <div className="card-actions mt-2">
                 <button className="px-3 py-1 border border-[#dfdfdf] text-sm hover:border-black">
                   L

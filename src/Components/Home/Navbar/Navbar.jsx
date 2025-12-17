@@ -41,9 +41,13 @@ const Navbar = () => {
       <li>
         <NavLink to="/">Contact</NavLink>
       </li>
-      <li>
-        <NavLink to="/dashboard">Dashboard</NavLink>
-      </li>
+      {user ? (
+        <li>
+          <NavLink to="/dashboard">Dashboard</NavLink>
+        </li>
+      ) : (
+        ""
+      )}
     </>
   );
 

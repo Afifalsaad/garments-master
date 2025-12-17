@@ -5,6 +5,29 @@ import {
   FaIndustry,
   FaTruck,
 } from "react-icons/fa";
+import { motion } from "framer-motion";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
 
 const HowItWorks = () => {
   const steps = [
@@ -41,48 +64,58 @@ const HowItWorks = () => {
       color: "from-rose-500 to-pink-500",
     },
   ];
+
   return (
-    <div>
-      <section className="py-20 bg-linear-to-br from-base-200 via-base-100 to-base-200">
-        <div className="max-w-7xl mx-auto px-4">
-          {/* Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-primary">
-              How It Works
-            </h2>
-            <p className="mt-4 text-base-content/70 max-w-2xl mx-auto">
-              Step-by-step workflow of our Garments Order & Production Tracker
-              System
-            </p>
-          </div>
+    <section className="py-20 bg-linear-to-br from-base-200 via-base-100 to-base-200">
+      <div className="max-w-7xl mx-auto px-4">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-primary">
+            How It Works
+          </h2>
+          <p className="mt-4 text-base-content/70 max-w-2xl mx-auto">
+            Step-by-step workflow of our Garments Order & Production Tracker
+            System
+          </p>
+        </motion.div>
 
-          {/* Steps */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {steps.map((step) => (
-              <div
-                key={step.id}
-                className="group relative rounded-2xl p-6 bg-base-100 shadow-lg hover:shadow-2xl transition-all duration-300">
-                {/* Gradient Icon */}
-                <div
-                  className={`w-16 h-16 rounded-xl flex items-center justify-center text-white text-2xl bg-linear-to-r ${step.color} mb-5 group-hover:scale-110 transition`}>
-                  {step.icon}
-                </div>
+        {/* Steps */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {steps.map((step) => (
+            <motion.div
+              key={step.id}
+              variants={cardVariants}
+              whileHover={{ y: -8 }}
+              className="group relative rounded-2xl p-6 bg-base-100 shadow-lg hover:shadow-2xl transition-all duration-300">
+              {/* Icon */}
+              <motion.div
+                whileHover={{ scale: 1.15, rotate: 5 }}
+                className={`w-16 h-16 rounded-xl flex items-center justify-center text-white text-2xl bg-linear-to-r ${step.color} mb-5`}>
+                {step.icon}
+              </motion.div>
 
-                {/* Step Number */}
-                <span className="absolute top-4 right-4 text-6xl font-bold text-base-300 opacity-40">
-                  {step.id}
-                </span>
+              {/* Step Number */}
+              <span className="absolute top-4 right-4 text-6xl font-bold text-base-300 opacity-40">
+                {step.id}
+              </span>
 
-                <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
-                <p className="text-sm text-base-content/70">
-                  {step.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    </div>
+              <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
+              <p className="text-sm text-base-content/70">{step.description}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
   );
 };
 

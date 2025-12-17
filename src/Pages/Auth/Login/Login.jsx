@@ -15,7 +15,6 @@ const Login = () => {
   const handleLogin = (data) => {
     const email = data.email;
     const password = data.password;
-    console.log(email, password);
     loginUser(email, password)
       .then(() => {
         Swal.fire({
@@ -25,7 +24,11 @@ const Login = () => {
         navigate(location?.state || "/");
       })
       .catch((error) => {
-        console.log(error);
+        Swal.fire({
+          title: "Login Error",
+          text: error.message,
+          icon: "error",
+        });
       });
   };
 

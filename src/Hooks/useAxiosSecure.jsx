@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import useAuth from "./useAuth";
+import Swal from "sweetalert2";
 
 const axiosSecure = axios.create({
   baseURL: "http://localhost:3000/",
@@ -23,7 +24,11 @@ const useAxiosSecure = () => {
       },
       (error) => {
         if (error.status === 401 || error.status === 403) {
-          console.log("Unauthorized Access");
+          Swal.fire({
+            title: "Access Denied",
+            icon: "error",
+          });
+          // console.log("error made by me");
         }
         return Promise.reject(error);
       }

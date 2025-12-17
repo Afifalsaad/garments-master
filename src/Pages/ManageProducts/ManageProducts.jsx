@@ -22,10 +22,8 @@ const ManageProducts = () => {
     queryKey: [user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/my-products?email=${user.email}`);
-      console.log(res.data);
       return res.data;
     },
-    enabled: !!user?.email,
   });
 
   const products = Array.isArray(data) ? data : [];
@@ -34,6 +32,7 @@ const ManageProducts = () => {
     setSelectedProduct(product);
     modalRef.current.showModal();
   };
+
   const handlePreview = (e) => {
     const files = Array.from(e.target.files);
     const urls = files.map((file) => URL.createObjectURL(file));
@@ -41,10 +40,10 @@ const ManageProducts = () => {
   };
 
   const handleUpdate = async (data) => {
+    modalRef.current.close();
     try {
       setLoading(true);
       const images = Array.from(data.images);
-      const videos = Array.from(data.demoVideo);
       const image_URL_API = `https://api.imgbb.com/1/upload?key=${
         import.meta.env.VITE_IMAGE_HOST
       }`;
@@ -52,22 +51,26 @@ const ManageProducts = () => {
         import.meta.env.VITE_IMAGE_HOST
       }`;
 
-      let imageURLs = [];
+      const imageUploadPromises = images.map((img) => {
+        const formData = new FormData();
+        formData.append("image", img);
+        return axios.post(image_URL_API, formData);
+      });
+
+      const imageResponses = await Promise.all(imageUploadPromises);
+      const imageURLs = imageResponses.map((res) => res.data.data.url);
+
       let videoURLs = [];
 
-      for (let i = 0; i < images.length; i++) {
-        const formData = new FormData();
-        formData.append("image", images[i]);
+      if (data.demoVideo?.length > 0) {
+        const videoUploadPromises = Array.from(data.demoVideo).map((video) => {
+          const formData = new FormData();
+          formData.append("image", video);
+          return axios.post(video_URL_API, formData);
+        });
 
-        const res = await axios.post(image_URL_API, formData);
-        imageURLs.push(res.data.data.url);
-      }
-      for (let i = 0; i < videos.length; i++) {
-        const formData = new FormData();
-        formData.append("video", videos[i]);
-
-        const res = await axios.post(video_URL_API, formData);
-        videoURLs.push(res.data.data.url);
+        const videoResponses = await Promise.all(videoUploadPromises);
+        videoURLs = videoResponses.map((res) => res.data.data.url);
       }
 
       const updatedInfo = {
@@ -95,11 +98,13 @@ const ManageProducts = () => {
         });
       }
     } catch (error) {
-      console.error(error);
-      Swal.fire({ title: "Something went wrong", icon: "error" });
+      Swal.fire({
+        title: "Something went wrong",
+        text: error.message,
+        icon: "error",
+      });
     } finally {
       setLoading(false);
-      modalRef.current.close();
     }
   };
 

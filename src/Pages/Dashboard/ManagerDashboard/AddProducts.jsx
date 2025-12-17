@@ -12,13 +12,17 @@ const AddProducts = () => {
   const axiosSecure = useAxiosSecure();
   const [previews, setPreviews] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { register, handleSubmit, reset } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
   const { data: currentUser = [] } = useQuery({
     queryKey: [],
     queryFn: async () => {
       const res = await axiosSecure.get(`/user/status?email=${user.email}`);
-      console.log(res.data);
       return res.data;
     },
   });
@@ -64,7 +68,6 @@ const AddProducts = () => {
     };
     axiosSecure.post("/products", productDetails).then((res) => {
       if (res.data.insertedId) {
-        setLoading(false);
         setPreviews([]);
         reset();
         Swal.fire({
@@ -73,6 +76,7 @@ const AddProducts = () => {
         });
       }
     });
+    setLoading(false);
   };
 
   return (
@@ -117,10 +121,15 @@ const AddProducts = () => {
               <label className="font-bold text-md">Price</label>
               <input
                 type="number"
-                {...register("price")}
+                {...register("price", {
+                  required: true,
+                })}
                 className="input w-full mb-4  bg-white"
                 placeholder="price"
               />
+              {errors.price?.type === "required" && (
+                <p className="text-red-500">Price is required.</p>
+              )}
 
               {/* Available Quantity */}
               <label className="font-bold text-md">Available Quantity</label>

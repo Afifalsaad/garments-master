@@ -15,7 +15,7 @@ const MyOrders = () => {
     queryKey: [user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/my-orders?email=${user?.email}`);
-      console.log(orders);
+      console.log(res.data);
       return res.data;
     },
   });
@@ -79,9 +79,11 @@ const MyOrders = () => {
           <thead>
             <tr>
               <th></th>
+              <th>Order ID</th>
               <th>Name</th>
               <th>Total</th>
-              <th>Payment Method</th>
+              <th>Order Quantity</th>
+              <th>Order Status</th>
               <th>Payment Options</th>
             </tr>
           </thead>
@@ -89,13 +91,20 @@ const MyOrders = () => {
             {orders.map((order, index) => (
               <tr key={order._id}>
                 <th>{index + 1}</th>
+                <th>{order.id}</th>
                 <td>{order.title}</td>
                 <td>{order.order_price}</td>
-                <td>{order.payment_option}</td>
+                <td>{order.order_quantity}</td>
+                <td>
+                  {order.tracking?.length > 0
+                    ? order.tracking[order.tracking.length - 1].status
+                    : "No Status"}
+                </td>
+
                 <td>
                   {order.payment_status === "paid" ? (
                     <span className="text-green-400 font-bold">Paid</span>
-                  ) : order.payment_option === "Cash on Delivery" ? (
+                  ) : order.payment_option !== "PayFast" ? (
                     <span className="text-red-400 font-bold">Unavailable</span>
                   ) : (
                     <button
@@ -249,7 +258,7 @@ const MyOrders = () => {
               <span className="text-green-400 text-xl font-bold mt-12 mr-1">
                 Paid
               </span>
-            ) : order.payment_option === "Cash on Delivery" ? (
+            ) : order.payment_option !== "PayFast" ? (
               <span className="text-red-400 font-bold">Unavailable</span>
             ) : (
               <button
