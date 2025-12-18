@@ -42,9 +42,11 @@ const Navbar = () => {
         <NavLink to="/">Contact</NavLink>
       </li>
       {user ? (
-        <li>
-          <NavLink to="/dashboard">Dashboard</NavLink>
-        </li>
+        <>
+          <li>
+            <NavLink to="/dashboard">Dashboard</NavLink>
+          </li>
+        </>
       ) : (
         ""
       )}
@@ -87,46 +89,45 @@ const Navbar = () => {
           <div className="w-[500px]">
             <ul className="menu flex-row">{links}</ul>
           </div>
-
+        </div>
+        <div>
           <div>
-            <div>
-              {user ? (
-                <div className="relative items-center flex gap-4 group mr-3">
-                  <button
-                    onClick={handleLogout}
-                    className="btn btn-primary text-black hover:cursor-pointer">
-                    Logout
-                  </button>
+            {user ? (
+              <div className="relative items-center flex gap-4 group lg:mr-3">
+                <button
+                  onClick={handleLogout}
+                  className="btn btn-primary text-black hover:cursor-pointer">
+                  Logout
+                </button>
 
-                  <div>
-                    <div className="w-9 h-9 overflow-hidden rounded-full">
-                      {user.photoURL ? (
-                        <img
-                          className="w-full h-full object-cover hover:cursor-pointer"
-                          src={user.photoURL}
-                          alt="avatar"
-                        />
-                      ) : (
-                        <RxAvatar className="text-3xl hover:cursor-pointer text-black" />
-                      )}
-                    </div>
+                <div>
+                  <div className="w-9 h-9 overflow-hidden rounded-full">
+                    {user.photoURL ? (
+                      <img
+                        className="w-full h-full object-cover hover:cursor-pointer"
+                        src={user.photoURL}
+                        alt="avatar"
+                      />
+                    ) : (
+                      <RxAvatar className="text-3xl hover:cursor-pointer text-black" />
+                    )}
                   </div>
                 </div>
-              ) : (
-                <div className="flex mr-4">
-                  <Link
-                    to="/login"
-                    className="btn btn-primary text-black mx-2 hover:cursor-pointer">
-                    Login
-                  </Link>
-                  <Link
-                    to="/register"
-                    className="btn btn-primary text-black hover:cursor-pointer">
-                    Register
-                  </Link>
-                </div>
-              )}
-            </div>
+              </div>
+            ) : (
+              <div className="flex mr-4">
+                <Link
+                  to="/login"
+                  className="btn btn-primary text-black mx-2 hover:cursor-pointer">
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="btn btn-primary text-black hover:cursor-pointer">
+                  Register
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>

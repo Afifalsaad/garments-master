@@ -14,6 +14,7 @@ const ManageProducts = () => {
   const axiosSecure = useAxiosSecure();
   const [loading, setLoading] = useState(false);
   const [previews, setPreviews] = useState([]);
+  const [filterProduct, setFilterProduct] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const modalRef = useRef();
 
@@ -131,6 +132,13 @@ const ManageProducts = () => {
     });
   };
 
+  const filteredProducts = products.filter((product) => {
+    if (filterProduct === "All" || filterProduct === "") {
+      return true;
+    }
+    return product.category === filterProduct;
+  });
+
   return (
     <div className="text-secondary">
       {loading && (
@@ -142,6 +150,22 @@ const ManageProducts = () => {
         Manage Products: {products.length}
       </h2>
 
+      {/* Status */}
+      <div className="w-40">
+        <fieldset className="fieldset">
+          <select
+            defaultValue={filterProduct}
+            onChange={(e) => setFilterProduct(e.target.value)}
+            className="select">
+            <option>All</option>
+            <option>Shirt</option>
+            <option>Pant</option>
+            <option>Jacket</option>
+            <option>Accessories</option>
+          </select>
+        </fieldset>
+      </div>
+
       {/* Table */}
       <div className="hidden md:block overflow-x-auto">
         <table className="table">
@@ -150,13 +174,14 @@ const ManageProducts = () => {
             <tr>
               <th>Image</th>
               <th>Name</th>
+              <th>Category</th>
               <th>Price</th>
               <th>Payment Mode</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {products?.map((product) => (
+            {filteredProducts?.map((product) => (
               <tr key={product._id}>
                 <td>
                   <div className="flex items-center gap-3">
@@ -168,6 +193,7 @@ const ManageProducts = () => {
                   </div>
                 </td>
                 <td>{product.name}</td>
+                <td>{product.category}</td>
                 <td>{product.price}</td>
                 <td>{product.payment_option}</td>
                 <th>
@@ -307,7 +333,7 @@ const ManageProducts = () => {
 
       {/* Responsive Cards */}
       <div className="md:hidden space-y-4">
-        {products?.map((product) => (
+        {filteredProducts?.map((product) => (
           <div
             key={product._id}
             className="p-4 border rounded-lg shadow-sm bg-base-100">

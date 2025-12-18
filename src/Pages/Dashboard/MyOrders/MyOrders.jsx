@@ -78,7 +78,6 @@ const MyOrders = () => {
           {/* head */}
           <thead>
             <tr>
-              <th></th>
               <th>Order ID</th>
               <th>Name</th>
               <th>Total</th>
@@ -88,9 +87,8 @@ const MyOrders = () => {
             </tr>
           </thead>
           <tbody>
-            {orders.map((order, index) => (
+            {orders.map((order) => (
               <tr key={order._id}>
-                <th>{index + 1}</th>
                 <th>{order.id}</th>
                 <td>{order.title}</td>
                 <td>{order.order_price}</td>
@@ -114,11 +112,12 @@ const MyOrders = () => {
                     </button>
                   )}
                 </td>
-                <td>
+
+                <div className="flex gap-0.5">
                   {order.status === "pending" ? (
                     <button
                       onClick={() => handleDelete(order)}
-                      className="btn bg-[#CD5C5C] text-white border-none  hover:cursor-pointer mx-1">
+                      className="btn bg-[#CD5C5C] text-white border-none  hover:cursor-pointer">
                       Cancel Order
                     </button>
                   ) : (
@@ -126,10 +125,10 @@ const MyOrders = () => {
                   )}
                   <button
                     onClick={() => handleShowModal(order)}
-                    className="btn bg-cyan-500 text-white border-none hover:cursor-pointer mx-1">
+                    className="btn bg-cyan-500 text-white border-none hover:cursor-pointer ">
                     View Order
                   </button>
-                </td>
+                </div>
               </tr>
             ))}
           </tbody>
@@ -267,6 +266,11 @@ const MyOrders = () => {
                 Pay
               </button>
             )}
+            <button
+              onClick={() => handleDelete(order)}
+              className="btn bg-[#CD5C5C] text-white border-none  hover:cursor-pointer mx-1">
+              Cancel Order
+            </button>
             <button
               onClick={() => handleShowModal(order)}
               className="btn bg-cyan-500 text-white border-none hover:cursor-pointer my-3 mx-2">

@@ -4,7 +4,7 @@ import useAuth from "./useAuth";
 import Swal from "sweetalert2";
 
 const axiosSecure = axios.create({
-  baseURL: "http://localhost:3000/",
+  baseURL: "https://assignment-11-server-nine-pearl.vercel.app",
 });
 
 const useAxiosSecure = () => {

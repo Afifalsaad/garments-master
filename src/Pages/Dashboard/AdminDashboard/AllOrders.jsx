@@ -2,8 +2,11 @@ import React, { useRef, useState } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
+import useAuth from "../../../Hooks/useAuth";
+import LoadingSpinner from "../../Loading/Loading";
 
 const AllOrders = () => {
+  const { loading } = useAuth();
   const axiosSecure = useAxiosSecure();
   const modalRef = useRef();
   const [selectedOrder, setSelectedOrder] = useState();
@@ -38,6 +41,11 @@ const AllOrders = () => {
 
   return (
     <div className="text-secondary">
+      {loading && (
+        <div className="fixed h-screen inset-0 bg-white/50 flex items-center justify-center z-50 rounded-lg backdrop:bg-none">
+          <LoadingSpinner />
+        </div>
+      )}
       <h2 className="text-4xl font-bold text-center mb-3">
         All Orders: {orders.length}
       </h2>

@@ -83,9 +83,15 @@ const AllProductsHome = () => {
                 <button className="px-3 py-1 border border-[#dfdfdf] text-sm hover:border-black">
                   L
                 </button>
-                <p className="px-3 py-1 border text-sm">M</p>
-                <p className="px-3 py-1 border text-sm">XL</p>
-                <p className="px-3 py-1 border text-sm">XXL</p>
+                <button className="px-3 py-1 border border-[#dfdfdf] text-sm hover:border-black">
+                  M
+                </button>
+                <button className="px-3 py-1 border border-[#dfdfdf] text-sm hover:border-black">
+                  XL
+                </button>
+                <button className="px-3 py-1 border border-[#dfdfdf] text-sm hover:border-black">
+                  XXL
+                </button>
               </div>
               <div>
                 <Link
